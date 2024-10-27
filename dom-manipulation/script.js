@@ -43,13 +43,13 @@ async function syncQuotesWithServer() {
     if (newQuotes.length > 0) {
         const updatedQuotes = [...localQuotes, ...newQuotes];
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedQuotes));
-        notifyUserConflictResolution();
+        notifyUserConflictResolution('New quotes have been added from the server!');
     }
 
     // Simple conflict resolution: server data takes precedence
     if (localQuotes.length !== serverQuotes.length) {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(serverQuotes));
-        notifyUserConflictResolution();
+        notifyUserConflictResolution('Quotes synced with server!');
     }
 
     // Example: Post a new quote if it doesn't exist locally
@@ -60,8 +60,8 @@ async function syncQuotesWithServer() {
 }
 
 // Notify users about conflicts or updates
-function notifyUserConflictResolution() {
-    alert('Data has been updated from the server! Check your quotes.');
+function notifyUserConflictResolution(message) {
+    alert(message);
 }
 
 // Main initialization function
