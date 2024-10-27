@@ -8,6 +8,9 @@ const quotes = [
     { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", category: "Philosophical" }
 ];
 
+// Reference to the container that displays quotes
+const quoteDisplay = document.getElementById('quoteContainer');
+
 // Function to populate the categories dropdown
 function populateCategories() {
     const categoryFilter = document.getElementById('categoryFilter');
@@ -33,17 +36,23 @@ function populateCategories() {
 // Function to filter quotes based on selected category
 function filterQuotes() {
     const selectedCategory = document.getElementById('categoryFilter').value;
-    const quoteContainer = document.getElementById('quoteContainer');
-    quoteContainer.innerHTML = ''; // Clear previous quotes
+    quoteDisplay.innerHTML = ''; // Clear previous quotes
 
     // Filter and display quotes
-    quotes.forEach(quote => {
-        if (selectedCategory === 'all' || quote.category === selectedCategory) {
-            const quoteElement = document.createElement('div');
-            quoteElement.textContent = quote.text;
-            quoteContainer.appendChild(quoteElement); // Append the quote to the container
-        }
-    });
+    const filteredQuotes = quotes.filter(quote => selectedCategory === 'all' || quote.category === selectedCategory);
+
+    // Display a random quote from filtered results
+    if (filteredQuotes.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredQuotes.length); // Use Math.random to get a random index
+        const randomQuote = filteredQuotes[randomIndex]; // Select a random quote
+        const quoteElement = document.createElement('div');
+        quoteElement.textContent = randomQuote.text;
+        quoteDisplay.appendChild(quoteElement); // Append the random quote to the container
+    } else {
+        const noQuoteElement = document.createElement('div');
+        noQuoteElement.textContent = "No quotes available for this category.";
+        quoteDisplay.appendChild(noQuoteElement); // Show a message if no quotes are found
+    }
 
     // Save last selected category in local storage
     localStorage.setItem('lastSelectedCategory', selectedCategory);
