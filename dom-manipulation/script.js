@@ -1,22 +1,20 @@
-// Sample quotes array
-const quotes = [
-    { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", category: "Inspirational" },
-    { text: "The way to get started is to quit talking and begin doing.", category: "Motivational" },
-    { text: "Life is what happens when you're busy making other plans.", category: "Philosophical" },
-    { text: "You only live once, but if you do it right, once is enough.", category: "Inspirational" },
-    { text: "Get busy living or get busy dying.", category: "Motivational" },
-    { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", category: "Philosophical" }
-];
+function populateCategories() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const categories = [...new Set(quotes.map(quote => quote.category))]; // Extract unique categories
 
-// Function to display a random quote
-function displayRandomQuote() {
-    const randomIndex = Math.floor(Math.random() * quotes.length); // Get a random index
-    const quote = quotes[randomIndex].text; // Get the quote text
-    quoteDisplay.textContent = quote; // Display the quote
+    // Clear existing options
+    categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+
+    // Add categories to dropdown
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option); // Append the new option to the dropdown
+    });
+
+    // Restore last selected filter from local storage
+    const lastSelectedCategory = localStorage.getItem('lastSelectedCategory') || 'all';
+    categoryFilter.value = lastSelectedCategory;
+    filterQuotes(); // Display quotes based on restored filter
 }
-
-// Initialize quoteDisplay
-const quoteDisplay = document.getElementById('quoteDisplay'); // Ensure this ID exists in your HTML
-
-// Call displayRandomQuote when the page loads
-document.addEventListener('DOMContentLoaded', displayRandomQuote);
