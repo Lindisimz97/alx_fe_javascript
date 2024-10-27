@@ -8,46 +8,15 @@ const quotes = [
     { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", category: "Philosophical" }
 ];
 
-// Function to populate categories
-function populateCategories() {
-    const categoryFilter = document.getElementById('categoryFilter');
-    const categories = [...new Set(quotes.map(quote => quote.category))]; // Using map to get unique categories
-
-    // Clear existing options
-    categoryFilter.innerHTML = '<option value="all">All Categories</option>';
-
-    // Add categories to dropdown
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        categoryFilter.appendChild(option);
-    });
-
-    // Restore last selected filter
-    const lastSelectedCategory = localStorage.getItem('lastSelectedCategory') || 'all';
-    categoryFilter.value = lastSelectedCategory;
-    filterQuotes(); // Display quotes based on restored filter
+// Function to display a random quote
+function displayRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length); // Get a random index
+    const quote = quotes[randomIndex].text; // Get the quote text
+    quoteDisplay.textContent = quote; // Display the quote
 }
 
-// Function to filter quotes
-function filterQuotes() {
-    const selectedCategory = document.getElementById('categoryFilter').value;
-    const quoteContainer = document.getElementById('quoteContainer');
-    quoteContainer.innerHTML = '';
+// Initialize quoteDisplay
+const quoteDisplay = document.getElementById('quoteDisplay'); // Ensure this ID exists in your HTML
 
-    // Filter and display quotes
-    quotes.forEach(quote => {
-        if (selectedCategory === 'all' || quote.category === selectedCategory) {
-            const quoteElement = document.createElement('div');
-            quoteElement.textContent = quote.text;
-            quoteContainer.appendChild(quoteElement);
-        }
-    });
-
-    // Save last selected category
-    localStorage.setItem('lastSelectedCategory', selectedCategory);
-}
-
-// Initializing the app
-document.addEventListener('DOMContentLoaded', populateCategories);
+// Call displayRandomQuote when the page loads
+document.addEventListener('DOMContentLoaded', displayRandomQuote);
