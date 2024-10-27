@@ -4,42 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Quote Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #quotesContainer {
-            margin-top: 20px;
-        }
-        .quote {
-            margin: 5px 0;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
-    <h1>Dynamic Quote Generator</h1>
-    <input type="text" id="quoteInput" placeholder="Enter your quote here" />
-    <button id="addQuoteButton">Add Quote</button>
-    <button id="exportButton">Export Quotes</button>
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
-
-    <div id="quotesContainer"></div>
-
+    <div id="quoteDisplay"></div> <!-- This is where quotes will be displayed -->
+    <select id="categoryFilter" onchange="filterQuotes()">
+        <option value="all">All Categories</option>
+        <!-- Categories will be populated dynamically -->
+    </select>
     <script src="script.js"></script>
-    <script>
-        // Add event listeners for buttons
-        document.getElementById('addQuoteButton').addEventListener('click', function() {
-            const quoteInput = document.getElementById('quoteInput');
-            addQuote(quoteInput.value);
-            quoteInput.value = ''; // Clear the input after adding
-        });
-
-        document.getElementById('exportButton').addEventListener('click', exportToJson);
-    </script>
 </body>
 </html>
