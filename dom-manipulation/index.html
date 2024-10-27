@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-  <html lang="en">
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Quote Generator</title>
-  </head>
-  <body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #quotesContainer {
+            margin-top: 20px;
+        }
+        .quote {
+            margin: 5px 0;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
     <h1>Dynamic Quote Generator</h1>
-    <div id="quoteDisplay"></div>
-    <button id="newQuote">Show New Quote</button>
+    <input type="text" id="quoteInput" placeholder="Enter your quote here" />
+    <button id="addQuoteButton">Add Quote</button>
+    <button id="exportButton">Export Quotes</button>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+
+    <div id="quotesContainer"></div>
+
     <script src="script.js"></script>
-  </body>
-  </html>
+    <script>
+        // Add event listeners for buttons
+        document.getElementById('addQuoteButton').addEventListener('click', function() {
+            const quoteInput = document.getElementById('quoteInput');
+            addQuote(quoteInput.value);
+            quoteInput.value = ''; // Clear the input after adding
+        });
+
+        document.getElementById('exportButton').addEventListener('click', exportToJson);
+    </script>
+</body>
+</html>
