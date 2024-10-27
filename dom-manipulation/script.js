@@ -14,6 +14,25 @@ async function fetchQuotesFromServer() {
     }
 }
 
+// Function to post new quotes to the server
+async function postQuoteToServer(quote) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: quote, body: quote, userId: 1 }) // Example payload
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        console.log('Quote posted:', data);
+    } catch (error) {
+        console.error('Error posting quote:', error);
+    }
+}
+
 // Function to sync local data with server data
 async function syncQuotesWithServer() {
     const serverQuotes = await fetchQuotesFromServer();
@@ -31,6 +50,12 @@ async function syncQuotesWithServer() {
     if (localQuotes.length !== serverQuotes.length) {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(serverQuotes));
         notifyUserConflictResolution();
+    }
+
+    // Example: Post a new quote if it doesn't exist locally
+    const newQuoteToPost = 'This is a new quote!'; // Change as needed
+    if (!localQuotes.includes(newQuoteToPost)) {
+        await postQuoteToServer(newQuoteToPost);
     }
 }
 
